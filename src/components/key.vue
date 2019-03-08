@@ -54,7 +54,7 @@ export default {
                 var reducer = Math.abs(this.price - this.price2);
                 var key = 1;
                 if(this.price2<this.price&&!this.direction){
-                    key = -1;
+                    key = 1;
                 }else if(this.price2>this.price&&!this.direction){
                     key = -1;
                 }else if(this.price2>this.price&&this.direction){

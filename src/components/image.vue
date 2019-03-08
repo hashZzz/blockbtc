@@ -7,12 +7,12 @@
         <div class="generater-main">
             <div class="type">
                 <span>收益率</span>
-                <i>{{getStr()}}</i>
+                <i :class="isSold">{{getStr()}}</i>
             </div>
             <div :class="{rate:true,up:data.rates>0}">{{data.rates}}%
             </div>
             <ul class="price">
-                <li><span>EOS季度</span><span>{{data.time}}</span></li>
+                <li><span>EOS季度</span><span>{{subDate(data.time)}}</span></li>
                 <i></i>
                 <li><span>最新价</span><span>{{data.price2}}</span></li>
                 <i></i>
@@ -31,7 +31,13 @@ import { XButton } from 'vux'
 export default {
     data(){
         return {
-            data:{}
+            data:{
+                
+            },
+            isSold:{
+                    red:true,
+                    green:false,
+                }
         }
     },
     components:{
@@ -41,18 +47,26 @@ export default {
         getStr(){
             var str = '';
             if(this.data.direction ){
+                this.isSold.green = true;
+                this.isSold.red = false;
                 if(this.data.rates > 0){
                     return "做多 ↑"
                 }else{
                     return "做多 ↓"
                 }
             }else{
+                this.isSold.green = false;
+                this.isSold.red = true;
                 if(this.data.rates > 0){
                     return "做空 ↑"
                 }else{
                     return "做空 ↓"
                 }
             }
+        },
+        subDate(timer){
+            console.log(timer.slice(5));
+            return timer.slice(5)
         }
     },
     created() {
@@ -70,9 +84,10 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
+    font-family: Helvetica Neue,Helvetica,Hiragino Sans GB,Microsoft YaHei,\\5FAE\8F6F\96C5\9ED1,Arial,sans-serif
 }
 .picture {
-    margin: .3rem 0;
+    margin: .6rem 0 .2rem 0;
     img {
         width: 1.6rem;
         height: 1.6rem;
@@ -99,10 +114,16 @@ export default {
         margin-left: .1rem;
         font-size: .12rem;
         font-style: normal;
-        border: solid 1px #e46170;
         border-radius: .06rem;
-        color: #e46170;
         padding: .02rem;
+    }
+    .red {
+        color: #e46170;
+        border: solid 1px #e46170;
+    }
+    .green {
+        color:#6fe05c;
+        border:solid 1px #6fe05c;
     }
 }
 .rate {
