@@ -34,11 +34,6 @@ export default {
         Calendar 
     },
     methods: {
-        getRates(){
-            var reduce = - (this.price - this.price2);
-            var result = ((reduce/this.price2)*2000).toFixed(2);
-            return result;
-        },
         toKey(){
             var obj = {
                 direction:this.direction,
@@ -46,15 +41,31 @@ export default {
                 price2:this.price2,
                 time:this.time,
                 tips:this.tips,
-                rates:this.getRates() + ''
+                rates:this.result
             };
-            console.log(obj);
             sessionStorage.setItem('param',JSON.stringify(obj));
             this.$router.push({
                 name:"generater"
             })
         }
     },
+    computed:{
+            result(){
+                var reducer = Math.abs(this.price - this.price2);
+                var key = 1;
+                if(this.price2<this.price&&!this.direction){
+                    key = -1;
+                }else if(this.price2>this.price&&!this.direction){
+                    key = -1;
+                }else if(this.price2>this.price&&this.direction){
+                    key = 1;
+                }else if(this.price2<this.price&&this.direction){
+                    key = -1;
+                }
+                return key * ((reducer/this.price2)*2000).toFixed(2);
+            }
+        },
+
 }
 </script>
 

@@ -7,7 +7,7 @@
         <div class="generater-main">
             <div class="type">
                 <span>收益率</span>
-                <i>{{data.direction == true ? "做空 ↑":"售出 ↓"}}</i>
+                <i>{{getStr()}}</i>
             </div>
             <div :class="{rate:true,up:data.rates>0}">{{data.rates}}%
             </div>
@@ -21,7 +21,7 @@
         </div>
         <div class="entry">
             <p>更多有意思的工具，长按图片扫描二维码</p>
-            <img src="static/image/entry.png">
+            <img src="static/image/entry.jpg">
         </div>
     </div>
 </template>
@@ -36,6 +36,24 @@ export default {
     },
     components:{
         XButton
+    },
+    methods: {
+        getStr(){
+            var str = '';
+            if(this.data.direction ){
+                if(this.data.rates > 0){
+                    return "做多 ↑"
+                }else{
+                    return "做多 ↓"
+                }
+            }else{
+                if(this.data.rates > 0){
+                    return "做空 ↑"
+                }else{
+                    return "做空 ↓"
+                }
+            }
+        }
     },
     created() {
         this.data = JSON.parse(sessionStorage.getItem("param"));
@@ -56,8 +74,8 @@ export default {
 .picture {
     margin: .3rem 0;
     img {
-        width: 1rem;
-        height: 1rem;
+        width: 1.6rem;
+        height: 1.6rem;
         border-radius: 50%;
     }
 }
@@ -91,10 +109,10 @@ export default {
     margin-top: .24rem;
     font-size: .36rem;
     font-weight: 700;
-    color:#6fe05c;
+    color:#ff6a7a;
 }
 .up {
-    color:#ff6a7a;
+    color:#6fe05c
 }
 .price {
     display: flex;
@@ -128,7 +146,7 @@ export default {
     left: 0;
     right: 0;
     bottom:0;
-    height: 1.1rem;
+    height: 1rem;
     background: rgba(0,0,0,.5);
     display: flex;
     justify-content: space-around;
