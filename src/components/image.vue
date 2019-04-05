@@ -14,9 +14,9 @@
             <ul class="price">
                 <li><span>EOS季度</span><span>{{subDate(data.time)}}</span></li>
                 <i></i>
-                <li><span>最新价</span><span>{{data.price2}}</span></li>
+                <li><span>最新价</span><span>{{data.newPrice}}</span></li>
                 <i></i>
-                <li><span>开仓均价</span><span>{{data.price}}</span></li>
+                <li><span>开仓均价</span><span>{{data.startPrice}}</span></li>
             </ul>
         </div>
         <div class="entry">
@@ -46,7 +46,7 @@ export default {
     methods: {
         getStr(){
             var str = '';
-            if(this.data.direction ){
+            if(!this.data.direction ){
                 this.isSold.green = true;
                 this.isSold.red = false;
                 if(this.data.rates > 0){

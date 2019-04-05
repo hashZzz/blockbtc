@@ -1,13 +1,13 @@
 <template>
     <div class="form-key">
-        <XInput title='入仓价格' v-model='price'></XInput>
-        <XInput title='最新价格' v-model='price2'></XInput>
+        <XInput title='入仓价格' v-model='startPrice'></XInput>
+        <XInput title='最新价格' v-model='newPrice'></XInput>
         <XInput title='标语' v-model='tips'></XInput>
         <!-- <XInput title='收益率' v-model='rates'></XInput> -->
         <!-- <XInput title='开仓均价' v-model='average'></XInput> -->
         <Calendar  title='开仓时间' v-model='time'></Calendar >
         <div>
-            <XSwitch :title='direction == true ?"做多":"做空"' v-model='direction'></XSwitch>
+            <XSwitch :title='direction == true ?"做空":"做多"' v-model='direction'></XSwitch>
         </div>
         <XButton class='submit' @click.native="toKey">提交</XButton>
         <router-view></router-view>
@@ -20,11 +20,10 @@ export default {
     data(){
         return {
             direction:true,
-            price:'',
-            price2:"",
+            newPrice:'',
+            startPrice:"",
             time:"",
             tips:"",
-            average:'',
         }
     },
     components:{
@@ -35,36 +34,36 @@ export default {
     },
     methods: {
         toKey(){
+            var rates = this.result();
             var obj = {
                 direction:this.direction,
-                price:this.price,
-                price2:this.price2,
+                newPrice:this.newPrice,
+                startPrice:this.startPrice,
                 time:this.time,
                 tips:this.tips,
-                rates:this.result
+                rates:rates
             };
             sessionStorage.setItem('param',JSON.stringify(obj));
             this.$router.push({
                 name:"generater"
             })
-        }
-    },
-    computed:{
-            result(){
-                var reducer = Math.abs(this.price - this.price2);
+        },
+        result(){
+                var distance = this.newPrice - this.startPrice;
                 var key = 1;
-                if(this.price2<this.price&&!this.direction){
-                    key = 1;
-                }else if(this.price2>this.price&&!this.direction){
+                if(distance>0&&this.direction){
                     key = -1;
-                }else if(this.price2>this.price&&this.direction){
+                }else if(distance<0&&this.direction){
                     key = 1;
-                }else if(this.price2<this.price&&this.direction){
+                }else if(distance>0&&!this.direction){
+                    key = 1
+                }else if (distance<0&&!this.direction){
                     key = -1;
                 }
-                return key * ((reducer/this.price2)*2000).toFixed(2);
+                var result = (Math.abs(((distance)/this.newPrice)*20 * 100)*key).toFixed(2)
+                return result
             }
-        },
+    },
 
 }
 </script>
