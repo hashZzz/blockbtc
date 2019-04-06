@@ -10,7 +10,6 @@
             <XSwitch :title='direction == true ?"做空":"做多"' v-model='direction'></XSwitch>
         </div>
         <XButton class='submit' @click.native="toKey">提交</XButton>
-        <router-view></router-view>
     </div>
 </template>
 

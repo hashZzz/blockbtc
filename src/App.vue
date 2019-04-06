@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import './../static/icon/iconfont.js'
 export default {
   name: 'App'
 }
@@ -18,7 +19,7 @@ export default {
   /* -moz-osx-font-smoothing: grayscale; */
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+
 }
 html,body {
   width: 100%;
@@ -35,5 +36,12 @@ a {
 }
 ul,li {
   list-style:none;
+}
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
 }
 </style>
