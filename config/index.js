@@ -10,7 +10,23 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      "/api":{
+        //
+        target:"http://blockbtc.cn:8080",
+        changeOrigin:true,
+        pathRewrite:{
+          '^/api':'/api',
+        }
+      },
+      "/mtg":{
+        target:"http://blockbtc.cn:8080",
+        changeOrigin:true,
+        pathRewrite:{
+          '^/mtg':"/mtg"
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

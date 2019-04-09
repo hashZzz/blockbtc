@@ -12,7 +12,7 @@
                     <use xlink:href="#icon-yuyin"></use>
                 </svg>
                 <div class="input">
-                    <XInput type="text" v-model="text" :show-clear="false"></XInput>
+                    <XInput type="text" placeholder=' ' v-model="text" :show-clear="false"></XInput>
                 </div>
                 <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-xiaolian"></use>
@@ -63,21 +63,45 @@ export default {
         XInput
     },
     methods: {
-        sendText(type){
+        sendText(type,text,index){
             let len = this.list.length;
             let isEven = len % 2 == 0 ? 'even' : 'odd';
             let liType = type || isEven;
-            this.list.push({
-                type:liType,
-                text:this.text,
-            });
+            if(index) {
+                this.list.splice(index,0,{
+                    type:liType,
+                    text:text || this.text
+                })
+            }else{
+                this.list.push({
+                    type:liType,
+                    text:text || this.text,
+                });
+            }
+
             this.text = '';
+        },
+        formatterText(text){
+            var strArys = text.split("   ");
+            strArys = strArys.map((item)=>{
+                if(isNaN(parseInt(item))){
+                    item = item.replace(/:/g,'<br>')
+                    return item += '<br/>'
+                }else{
+                    return item += '    '
+                }
+            })
+            return strArys.join("");
         }
     },
     created() {
         this.$bus.$emit("getName",'大狗子');
         getConversation().then(res=>{
             console.log(res);
+            if(res.code == 1){
+                let txt = this.formatterText(res.result);
+                this.sendText('odd',txt,2)
+            }
         })
     },
     mounted() {

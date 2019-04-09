@@ -14,7 +14,7 @@ export function getConversation(){
     return new Promise((resolve,reject)=>{
         axios({
             method:"get",
-            url:'http://blockbtc.cn:8080/mtg/init',
+            url:'/mtg/init',
             params:{
                 coinName:"%27ETH%27",
                 cur:"168",
