@@ -27,7 +27,7 @@
 
 <script>
 import { XInput } from 'vux';
-import {getConversation} from './../tools/api.js'
+import { getConversation } from './../tools/api.js'
 export default {
     data(){
         return {
@@ -85,21 +85,40 @@ export default {
             var strArys = text.split("   ");
             strArys = strArys.map((item)=>{
                 if(isNaN(parseInt(item))){
-                    item = item.replace(/:/g,'<br>')
                     return item += '<br/>'
                 }else{
-                    return item += '    '
+                    return item += '<br/>'
                 }
             })
             return strArys.join("");
+        },
+        formatterTimer(time){
+            function setZero(num){
+                return num > 10 ? num : "0" + num;
+            }
+            var timer = time ? new Date(time) : new Date();
+            var year = timer.getFullYear();
+            var month = setZero(timer.getMonth() + 1);
+            var day = setZero(timer.getDate());
+            var hour = setZero(timer.getHours());
+            var minutes = setZero(timer.getMinutes());
+            var second = setZero(timer.getSeconds());
+            return year + '-' + month + '-' + day + ' ' + hour + ':' + minutes + ':' + second
+            //yyyy-MM-dd HH:mm:ss
+        },
+        setDate(time){
+            var result = new Date(time);
+            result.setDate(result.getDate()-7);
+            return result;
         }
     },
     created() {
         this.$bus.$emit("getName",'大狗子');
-        getConversation().then(res=>{
-            console.log(res);
+        let now = this.formatterTimer()
+        var sevenBefore = this.formatterTimer(this.setDate(now));
+        getConversation(sevenBefore,now,60).then(res=>{
             if(res.code == 1){
-                let txt = this.formatterText(res.result);
+                let txt = this.formatterText(res.result.content);
                 this.sendText('odd',txt,2)
             }
         })

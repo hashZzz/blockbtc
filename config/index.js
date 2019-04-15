@@ -13,7 +13,8 @@ module.exports = {
     proxyTable: {
       "/api":{
         //
-        target:"http://blockbtc.cn:8080",
+        // target:"http://blockbtc.cn:8080",
+        target:"http://120.78.183.234:8888",
         changeOrigin:true,
         pathRewrite:{
           '^/api':'/api',
@@ -59,7 +60,7 @@ module.exports = {
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

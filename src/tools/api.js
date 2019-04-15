@@ -10,16 +10,16 @@ axios.interceptors.request.use(config => {
 
 });
 
-export function getConversation(){
+export function getConversation(start,end,second){
     return new Promise((resolve,reject)=>{
         axios({
             method:"get",
-            url:'/mtg/init',
+            url:'/api/init',
             params:{
-                coinName:"%27ETH%27",
-                cur:"168",
-                min:"131",
-                max:"185"
+                instrumentId:"BTC-USD-SWAP",
+                start:start,
+                end:end,
+                second:second
             }
         }).then(res=>{
             resolve(res.data);

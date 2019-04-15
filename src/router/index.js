@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld';
 import IMG from '@/components/image'
 import manage from '@/components/key'
 Vue.use(Router)
@@ -31,6 +30,11 @@ var router = new Router({
           path:"talk",
           name:"talk",
           component:resolve => require(['./../pages/conversation.vue'],resolve)
+        },
+        {
+          path:"calender",
+          name:"calender",
+          component:resolve => require(['./../pages/calender.vue'],resolve)
         }
       ]
     },

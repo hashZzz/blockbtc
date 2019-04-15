@@ -47,6 +47,10 @@ export default {
         {
           path:'/index/talk',
           text:'对话框'
+        },
+        {
+          path:"/index/calender",
+          text:"日历工具 "
         }
       ]
     };
