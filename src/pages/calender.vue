@@ -29,6 +29,7 @@ export default {
     },
     created() {
         this.getDays();
+        this.$bus.$emit("getName",'日历');
     },
 }
 </script>

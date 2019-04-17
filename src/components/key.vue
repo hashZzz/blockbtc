@@ -63,6 +63,9 @@ export default {
                 return result
             }
     },
+    created(){
+        this.$bus.$emit("getName",'收益图');
+    }
 
 }
 </script>

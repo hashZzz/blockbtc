@@ -1,23 +1,25 @@
 <template>
     <div class="talking">
-        <ul>
-            <li v-for="(item,index) in list" :key='index' :class="['text-item',(item.type == 'even' ? 'even-item':'odd-item')]">
-                <img :src="item.type == 'even' ? evenSrc:oddSrc">
-                <p :class="(item.type == 'even' ? 'even':'odd')" v-html="item.text"></p>
-            </li>
-        </ul>
+        <div class="scroll" ref="scroll">
+            <ul>
+                <li v-for="(item,index) in list" :key='index' :class="['text-item',(item.type == 'even' ? 'even-item':'odd-item')]">
+                    <img :src="item.type == 'even' ? evenSrc:oddSrc">
+                    <p :class="(item.type == 'even' ? 'even':'odd')" v-html="item.text"></p>
+                </li>
+            </ul>
+        </div>
         <div class="todoArea">
             <div class="todo-bar vux-1px-t">
-                <svg class="icon" aria-hidden="true">
+                <svg class="icon" aria-hidden="true" @click="clearAction">
                     <use xlink:href="#icon-yuyin"></use>
                 </svg>
                 <div class="input">
-                    <XInput type="text" placeholder=' ' v-model="text" :show-clear="false"></XInput>
+                    <XInput type="text" ref="enterInput" placeholder=' ' v-model="text" :show-clear="false"></XInput>
                 </div>
                 <svg class="icon" aria-hidden="true">
                     <use xlink:href="#icon-xiaolian"></use>
                 </svg>
-                <svg class="icon" aria-hidden="true">
+                <svg class="icon" aria-hidden="true" @click="sendText()">
                     <use xlink:href="#icon-jiahao"></use>
                 </svg>
             </div>
@@ -28,11 +30,12 @@
 <script>
 import { XInput } from 'vux';
 import { getConversation } from './../tools/api.js'
+import iscroll from 'iscroll';
 export default {
     data(){
         return {
-            evenSrc:'./../../static/image/WechatIMG120.jpeg',
-            oddSrc:'./../../static/image/WechatIMG121.jpeg',
+            evenSrc:'static/image/WechatIMG120.jpeg',
+            oddSrc:'static/image/WechatIMG121.jpeg',
             list:[
                 {
                     type:"even",
@@ -52,11 +55,11 @@ export default {
                 },
                 {
                     type:'odd',
-                    text:'<img class="entry-png" src="./../../static/image/entry.png">'
+                    text:'<img class="entry-png" src="static/image/entry.png">'
                 }
             ],
             text:'',
-
+            myScroll:null
         }
     },
     components:{
@@ -80,6 +83,8 @@ export default {
             }
 
             this.text = '';
+            this.$refs.enterInput.$el.querySelector('input').focus()
+            this.myScroll.refresh();
         },
         formatterText(text){
             var strArys = text.split("   ");
@@ -110,6 +115,9 @@ export default {
             var result = new Date(time);
             result.setDate(result.getDate()-7);
             return result;
+        },
+        clearAction(){
+            this.list = [];
         }
     },
     created() {
@@ -131,6 +139,14 @@ export default {
                 self.sendText();
             }
         }
+        
+        this.myScroll = new iscroll(this.$refs.scroll,{
+            mouseWheel: true,
+            tap:true,
+            bounce:true,
+            scrollY:true,//纵向可以使用
+        });
+        this.myScroll.refresh();
     }
 
 }
@@ -145,6 +161,7 @@ export default {
     bottom: 0;
     width: 100%;
     background: #f2f2f2;
+    overflow: hidden;
 }
 .text-item {
     display: flex;
@@ -202,6 +219,18 @@ export default {
     .input {
         width: 100%;
         height: .4rem;
+    }
+}
+
+.scroll {
+    touch-action: none;
+    position: absolute;
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    ul {
+        position: absolute;
+        width: 100%;
     }
 }
 
